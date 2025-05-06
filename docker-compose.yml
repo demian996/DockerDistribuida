@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    container_name: fastapi-backend
+    restart: always
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    container_name: html-frontend
+    depends_on:
+      - backend
+    restart: always
