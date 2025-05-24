@@ -20,9 +20,9 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       
     - name: Build the Docker image
-      run: docker build -t demian996/cicd-pipeline .
+      run: docker build -t demian996/frontend-images .
     - name: Push to Dockerhub
-      run: docker push demian996/cicd-pipeline:latest
+      run: docker push demian996/frontend-images:latest
   CD:
     runs-on: ubuntu-latest
     
@@ -42,18 +42,18 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
           # Actualizar imágenes
-          sudo docker pull demian996/cicd-pipeline:latest
+          sudo docker pull demian996/frontend-images:latest
           
           # Detener y limpiar
-          sudo docker stop cicd-pipeline-container || true
-          sudo docker rm cicd-pipeline-container || true
+          sudo docker stop frontend-container || true
+          sudo docker rm frontend-container || true
           
           # Ejecutar nuevo contenedor
           sudo docker run -d \
-            --name cicd-pipeline-container \
+            --name frontend-container \
             -p 80:80 \
             --restart unless-stopped \
-            demian996/cicd-pipeline:latest
+            demian996/frontend-images:latest
           
           # Limpieza
           sudo docker system prune -af
