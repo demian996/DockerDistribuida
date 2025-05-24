@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const itemsList = document.getElementById('items-list');
     const fetchButton = document.getElementById('fetch-button');
     
-    // URL del backend (coincide con el nombre del servicio en docker-compose)
-    const apiUrl = 'http://localhost:8000';
+    // URL del backend 
+    const apiUrl = process.env.BACKEND_URL || 'http://localhost:8000';
     
     // Comprobar la conexión con el backend
     checkBackendConnection();
